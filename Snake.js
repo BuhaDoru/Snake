@@ -1,67 +1,107 @@
-
 window.onload = function () {
-    canv = document.getElementById("snake");
-    ctx = canv.getContext("2d");
-    document.addEventListener("keydown",keyPush);
-    setInterval(game, 2000/10);
-}
+        canv = document.getElementById("snake");
+        ctx = canv.getContext("2d");
+        document.addEventListener("keydown",keyPush);
+        myInterval = setInterval(runGame, 2000/10);
+    }
 
-px = py = 1;
+playerX = playerY = 10;
 gs = tc = 25;
-ax = ay = 10;
-xv = yv = 0;
+appleX = appleY = 15;
+xSpeed = ySpeed = 0;
 trail = [];
 tail = 1;
+let score = document.getElementById("score");
 
-function game () {
-    px += xv;
-    py += yv;
-    if (px < -1) {
-        //alert("game over");
-        //px = tc;
+function stopGame () {
+    clearInterval(myInterval);
+}
+
+function runGame () {
+    playerX += xSpeed;
+    playerY += ySpeed;
+    if (playerX < 0) {
+        document.getElementById("Message").innerHTML += `
+            <div class="card text-bg-danger mb-3"">
+                <div class="card-body">
+                    <h5 class="card-title">You lost!</h5>
+                </div>
+            </div>`;
+        stopGame();
     }
-    if (px > tc) {
-        //alert("game over");
-        //px = 0;
+    if (playerX > tc - 1) {
+        document.getElementById("Message").innerHTML += `
+            <div class="card text-bg-danger mb-3"">
+                <div class="card-body">
+                  <h5 class="card-title">You lost!</h5>
+                </div>
+            </div>`;
+        stopGame();
     }
-    if (py < -1) {
-        //alert("game over");
-        //py = tc;
+    if (playerY < 0) {
+        document.getElementById("Message").innerHTML += `
+              <div class="card text-bg-danger mb-3"">
+                <div class="card-body">
+                  <h5 class="card-title">You lost!</h5>
+                </div>
+              </div>`;
+        stopGame();
     }
-    if (py > tc) {
-        //alert("game over");
-        //py = 0;
+    if (playerY > tc - 1) {
+        document.getElementById("Message").innerHTML += `
+              <div class="card text-bg-danger mb-3"">
+                <div class="card-body">
+                  <h5 class="card-title">You lost!</h5>
+                </div>
+              </div>`;
+        stopGame();
     }
     ctx.fillStyle = "black";
     ctx.fillRect (0, 0, canv.width, canv.height);
     ctx.fillStyle = "green";
-    for (var i = 0; i < trail.length; i++) {
-        ctx.fillRect(trail[i].x * 25,trail[i].y * 25, gs - 2, gs - 2);
-        if (trail[i].x == px && trail[i].y == py) {
-            //alert("game over");
+    for (var i = 0; i < trail.length; ++i) {
+        ctx.fillRect(trail[i].x * gs, trail[i].y * gs, gs - 2, gs - 2);
+        if (trail[i].x == playerX && trail[i].y == playerY && (xSpeed != 0 || ySpeed != 0)) {
+            console.log(trail[i].x, playerX, trail[i].y, playerY);
+            document.getElementById("Message").innerHTML += `
+              <div class="card text-bg-danger mb-3"">
+                <div class="card-body">
+                  <h5 class="card-title">You lost!</h5>
+                </div>
+              </div>`;
+            stopGame();
         }
     }
-    trail.push ({x:px, y:py});
+    trail.push ({x:playerX, y:playerY});
     while (trail.length > tail) {
-        trail.shift ();
+        for (let j = 0; j < trail.length; ++j) {
+            trail[j] = trail[j + 1];
+        }
+        trail.pop();
     }
  
-    if(ax == px && ay == py) {
-        tail++;
-        ax = Math.floor(Math.random() * 25);
-        ay = Math.floor(Math.random() * 25);
+    if (appleX == playerX && appleY == playerY) {
+        ++tail;
+        score.innerHTML = "Score: " + tail;
+        appleX = Math.floor(Math.random() * tc);
+        appleY = Math.floor(Math.random() * tc);
     }
     ctx.fillStyle = "red";
-    ctx.fillRect (ax * gs, ay * gs, gs - 2, gs - 2);
+    ctx.fillRect (appleX * gs, appleY * gs, gs - 2, gs - 2);
 }
+
 function keyPush (evt) {
     if (evt.keyCode == 37) {
-        xv = -1; yv = 0;
+        xSpeed = -1; ySpeed = 0;
     } else if (evt.keyCode == 38) {
-        xv = 0; yv = -1;
+        xSpeed = 0; ySpeed = -1;
     } else if (evt.keyCode == 39) {
-        xv = 1; yv = 0;
+        xSpeed = 1; ySpeed = 0;
     } else if (evt.keyCode == 40) {
-        xv = 0; yv = 1;
+        xSpeed = 0; ySpeed = 1;
     }
+}
+
+function restartGame() {
+        location.reload();
 }
