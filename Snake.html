@@ -7,16 +7,23 @@
     <div class="card text-center">
       <h5 class="card-header">Snake</h5>
       <div class="card-body">
-        <h5 class="card-title">To start the game just click in the desired box.</h5>
+        <h5 class="card-title">To start the game just press on arrow key.</h5>
         <p class="card-text"></p>
-        <a href="#" class="btn btn-primary" onclick="restartGame(), time()">Restart Game</a>
+        <a href="#" class="btn btn-primary" onclick="restartGame()">Restart Game</a>
       </div>
     </div>
-    <canvas id="snake" width="625" height="625">
-    </canvas>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-     <link rel="stylesheet" type="text/css" href="Snake.css" />
+    <div style = "text-align: center;">
+        <div id = "score">
+        Score: 1
+        </div>
+        <canvas id="snake" width="625" height="625">
+        </canvas>
+    </div>
+    <div id="Message">
+    </div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel = "stylesheet" type = "text/css" href = "Snake.css" />
    </head>
     <script src = "Snake.js">
     </script>
