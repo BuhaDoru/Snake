@@ -1,15 +1,16 @@
 window.onload = function () {
-        canv = document.getElementById("snake");
-        ctx = canv.getContext("2d");
-        document.addEventListener("keydown",keyPush);
-        myInterval = setInterval(runGame, 2000/10);
-    }
+    canv = document.getElementById("snake");
+    ctx = canv.getContext("2d");
+    document.addEventListener("keydown",keyPush);
+    myInterval = setInterval(runGame, 2000/10);
+}
 
 playerX = playerY = 10;
 gs = tc = 25;
 appleX = appleY = 15;
 xSpeed = ySpeed = 0;
-trail = [];
+xTrail = [];
+yTrail = [];
 tail = 1;
 let score = document.getElementById("score");
 
@@ -59,10 +60,9 @@ function runGame () {
     ctx.fillStyle = "black";
     ctx.fillRect (0, 0, canv.width, canv.height);
     ctx.fillStyle = "green";
-    for (var i = 0; i < trail.length; ++i) {
-        ctx.fillRect(trail[i].x * gs, trail[i].y * gs, gs - 2, gs - 2);
-        if (trail[i].x == playerX && trail[i].y == playerY && (xSpeed != 0 || ySpeed != 0)) {
-            console.log(trail[i].x, playerX, trail[i].y, playerY);
+    for (var i = 0; i < xTrail.length; ++i) {
+        ctx.fillRect(xTrail[i] * gs, yTrail[i] * gs, gs - 2, gs - 2);
+        if (xTrail[i] == playerX && yTrail[i] == playerY && (xSpeed != 0 || ySpeed != 0)) {
             document.getElementById("Message").innerHTML += `
               <div class="card text-bg-danger mb-3"">
                 <div class="card-body">
@@ -72,12 +72,15 @@ function runGame () {
             stopGame();
         }
     }
-    trail.push ({x:playerX, y:playerY});
-    while (trail.length > tail) {
-        for (let j = 0; j < trail.length; ++j) {
-            trail[j] = trail[j + 1];
+    xTrail[xTrail.length] = playerX;
+    yTrail[yTrail.length] = playerY;
+    while (xTrail.length > tail) {
+        for (let j = 0; j < xTrail.length; ++j) {
+            xTrail[j] = xTrail[j + 1];
+            yTrail[j] = yTrail[j + 1];
         }
-        trail.pop();
+        xTrail.pop();
+        yTrail.pop();
     }
  
     if (appleX == playerX && appleY == playerY) {
