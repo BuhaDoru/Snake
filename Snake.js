@@ -21,40 +21,13 @@ function stopGame () {
 function runGame () {
     playerX += xSpeed;
     playerY += ySpeed;
-    if (playerX < 0) {
+    if ((playerX < 0) || (playerX > tc - 1) || (playerY < 0) || (playerY > tc - 1)) {
         document.getElementById("Message").innerHTML += `
             <div class="card text-bg-danger mb-3"">
                 <div class="card-body">
                     <h5 class="card-title">You lost!</h5>
                 </div>
             </div>`;
-        stopGame();
-    }
-    if (playerX > tc - 1) {
-        document.getElementById("Message").innerHTML += `
-            <div class="card text-bg-danger mb-3"">
-                <div class="card-body">
-                  <h5 class="card-title">You lost!</h5>
-                </div>
-            </div>`;
-        stopGame();
-    }
-    if (playerY < 0) {
-        document.getElementById("Message").innerHTML += `
-              <div class="card text-bg-danger mb-3"">
-                <div class="card-body">
-                  <h5 class="card-title">You lost!</h5>
-                </div>
-              </div>`;
-        stopGame();
-    }
-    if (playerY > tc - 1) {
-        document.getElementById("Message").innerHTML += `
-              <div class="card text-bg-danger mb-3"">
-                <div class="card-body">
-                  <h5 class="card-title">You lost!</h5>
-                </div>
-              </div>`;
         stopGame();
     }
     ctx.fillStyle = "black";
@@ -72,17 +45,8 @@ function runGame () {
             stopGame();
         }
     }
-    xTrail[xTrail.length] = playerX;
-    yTrail[yTrail.length] = playerY;
-    while (xTrail.length > tail) {
-        for (let j = 0; j < xTrail.length; ++j) {
-            xTrail[j] = xTrail[j + 1];
-            yTrail[j] = yTrail[j + 1];
-        }
-        xTrail.pop();
-        yTrail.pop();
-    }
- 
+    
+    moveSnake();
     if (appleX == playerX && appleY == playerY) {
         ++tail;
         score.innerHTML = "Score: " + tail;
@@ -102,6 +66,19 @@ function keyPush (evt) {
         xSpeed = 1; ySpeed = 0;
     } else if (evt.keyCode == 40) {
         xSpeed = 0; ySpeed = 1;
+    }
+}
+
+function moveSnake() {
+     xTrail[xTrail.length] = playerX;
+    yTrail[yTrail.length] = playerY;
+    while (xTrail.length > tail) {
+        for (let j = 0; j < xTrail.length; ++j) {
+            xTrail[j] = xTrail[j + 1];
+            yTrail[j] = yTrail[j + 1];
+        }
+        xTrail.pop();
+        yTrail.pop();
     }
 }
 
