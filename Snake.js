@@ -16,18 +16,18 @@ let score = document.getElementById("score");
 
 function stopGame () {
     clearInterval(myInterval);
+    document.getElementById("Message").innerHTML += `
+        <div class="card text-bg-danger mb-3"">
+            <div class="card-body">
+                  <h5 class="card-title">You lost!</h5>
+            </div>
+        </div>`;
 }
 
 function runGame () {
     playerX += xSpeed;
     playerY += ySpeed;
     if ((playerX < 0) || (playerX > tc - 1) || (playerY < 0) || (playerY > tc - 1)) {
-        document.getElementById("Message").innerHTML += `
-            <div class="card text-bg-danger mb-3"">
-                <div class="card-body">
-                    <h5 class="card-title">You lost!</h5>
-                </div>
-            </div>`;
         stopGame();
     }
     ctx.fillStyle = "black";
@@ -35,13 +35,7 @@ function runGame () {
     ctx.fillStyle = "green";
     for (var i = 0; i < xTrail.length; ++i) {
         ctx.fillRect(xTrail[i] * gs, yTrail[i] * gs, gs - 2, gs - 2);
-        if (xTrail[i] == playerX && yTrail[i] == playerY && (xSpeed != 0 || ySpeed != 0)) {
-            document.getElementById("Message").innerHTML += `
-              <div class="card text-bg-danger mb-3"">
-                <div class="card-body">
-                  <h5 class="card-title">You lost!</h5>
-                </div>
-              </div>`;
+        if(xTrail[i] == playerX && yTrail[i] == playerY && (xSpeed != 0 || ySpeed != 0)) {
             stopGame();
         }
     }
